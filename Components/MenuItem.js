@@ -1,23 +1,40 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import CartIcon from '../image/cart.svg';
 
-const MenuItem = ({name, price, SvgIcon}) => {
+const MenuItem = ({id, name, price, SvgIcon, detail}) => {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate('Detail', {
+      itemId: id,
+      item: name,
+      price: price,
+      SvgIcon: SvgIcon,
+      detail: detail,
+    });
+  };
+
   return (
-    <View style={styles.menuItemContainer}>
-      {SvgIcon && (
-        <View style={styles.iconContainer}>
-          <SvgIcon style={styles.icon} width={96} height={96} />
+    <TouchableOpacity onPress={handlePress}>
+      <View style={styles.menuItemContainer}>
+        {SvgIcon && (
+          <View style={styles.iconContainer}>
+            <View style={styles.iconWrapper}>
+              <SvgIcon style={styles.icon} width={'100%'} height={'100%'} />
+            </View>
+          </View>
+        )}
+        <View style={styles.textContainer}>
+          <Text style={styles.menuItemName}>{name}</Text>
+          <Text style={styles.menuItemPrice}>{price}</Text>
         </View>
-      )}
-      <View style={styles.textContainer}>
-        <Text style={styles.menuItemName}>{name}</Text>
-        <Text style={styles.menuItemPrice}>{price}</Text>
+        <View style={styles.cartContainer}>
+          <CartIcon />
+        </View>
       </View>
-      <View style={styles.cartContainer}>
-        <CartIcon />
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -32,23 +49,45 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     marginRight: 16,
+    width: 96,
+    height: 96,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconWrapper: {
+    alignSelf: 'center',
+    borderRadius: 12,
+    overflow: 'hidden',
+    width: '100%',
+    height: '100%',
   },
   icon: {
-    width: 80, // 원하는 크기로 조절
-    height: 80, // 원하는 크기로 조절
+    alignSelf: 'center',
+    width: '100%',
+    height: '100%',
+    borderRadius: 12,
   },
   textContainer: {
     flexDirection: 'column',
+    height: '100%',
   },
   menuItemName: {
     fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
   },
   menuItemPrice: {
     fontSize: 16,
     color: '#888',
+    fontWeight: 'bold',
+    color: 'black',
   },
   cartContainer: {
     marginLeft: 'auto',
+    flexDirection: 'column',
+    backgroundColor: '#E3E0FF',
+    borderRadius: 8,
+    padding: 12,
   },
 });
 

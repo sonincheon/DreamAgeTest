@@ -14,7 +14,7 @@ function App() {
           component={HomeScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="Detail" component={DetailScreen} />
+        <Stack.Screen name="Detail" component={DetailScreen}  options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
